@@ -1,0 +1,86 @@
+<div class="crud-container">
+	<h1>CRUD Angular com API Yii2</h1>
+	
+	<div class="crud-actions">
+		<div class="add-btn">Criar item</div>
+	</div>
+	
+	<hr class="divider">
+	
+	<table class="crud-table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Nome</th>
+				<th>Quantidade</th>
+				<th>Categoria</th>
+				<th>Ações</th>
+			</tr>
+		</thead>
+		<tbody>
+			
+			<tr *ngFor="let produto of produtos">
+				<td>{{produto.id}}</td>
+				<td>{{produto.nome}}</td>
+				<td>{{produto.quantidade}}</td>
+				<td>{{produto.categoria}}</td>
+				<td class="actions">
+					<div class="edit-btn">Editar</div>
+					<div class="del-btn">Excluir</div>
+				</td>
+			</tr>
+			
+		</tbody>
+	</table>
+	
+	<!-- A Modal -->
+	<div id="itemModal" class="modal">
+	
+		<div class="modal-content">
+		
+			<div class="modal-header">
+				<span class="modal-title">Adicionar Novo Item</span>
+				<span class="close">&times;</span>
+			</div>
+			
+			<form method="POST">
+			
+				<div class="modal-body">
+				
+					<div class="form-group">
+						<label for="itemName">Nome:</label>
+						<input type="text" id="itemName" placeholder="Digite o nome do item">
+					</div>
+					
+					<div class="form-group">
+						<label for="itemQuantity">Quantidade:</label>
+						<input type="number" id="itemQuantity" placeholder="Digite a quantidade">
+					</div>
+					
+					<div class="form-group">
+						<label for="itemCategory">Categoria:</label>
+						<select id="itemCategory">
+							<option value="">Selecione uma categoria</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="modal-footer">
+					<div 
+						id="cancelBtn" 
+						class="btn btn-secondary"
+					>Cancelar</div>
+					<button 
+						id="saveBtn" 
+						class="btn btn-primary"
+						type="submit"
+					>Gravar</button>
+				</div>
+				
+			</form>
+			
+		</div>
+		
+	</div>
+	
+</div>
