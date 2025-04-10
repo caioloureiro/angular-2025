@@ -2,7 +2,7 @@
 	<h1>CRUD Angular com API Yii2</h1>
 	
 	<div class="crud-actions">
-		<div class="add-btn">Criar item</div>
+		<div class="add-btn" (click)="openModal()">Criar item</div>
 	</div>
 	
 	<hr class="divider">
@@ -18,49 +18,63 @@
 			</tr>
 		</thead>
 		<tbody>
-			
-			<tr *ngFor="let produto of produtos">
+			<tr *ngFor="let produto of produtosAtivos">
 				<td>{{produto.id}}</td>
 				<td>{{produto.nome}}</td>
 				<td>{{produto.quantidade}}</td>
-				<td>{{produto.categoria}}</td>
+				<td>{{getNomeCategoria(produto.categoria)}}</td>
 				<td class="actions">
-					<div class="edit-btn">Editar</div>
+					<div 
+						class="edit-btn"
+					>Editar</div>
 					<div class="del-btn">Excluir</div>
 				</td>
 			</tr>
-			
 		</tbody>
 	</table>
 	
-	<!-- A Modal -->
-	<div id="itemModal" class="modal">
-	
+	<div id="itemModal" class="modal" [class.active]="showModal">
 		<div class="modal-content">
-		
 			<div class="modal-header">
 				<span class="modal-title">Adicionar Novo Item</span>
-				<span class="close">&times;</span>
+				<span class="close" (click)="closeModal()">&times;</span>
 			</div>
 			
 			<form method="POST">
-			
 				<div class="modal-body">
-				
 					<div class="form-group">
 						<label for="itemName">Nome:</label>
-						<input type="text" id="itemName" placeholder="Digite o nome do item">
+						<input 
+							type="text" 
+							id="itemName" 
+							name="itemName"
+							placeholder="Digite o nome do item"
+							[(ngModel)]="produto.nome"
+						/>
 					</div>
 					
 					<div class="form-group">
 						<label for="itemQuantity">Quantidade:</label>
-						<input type="number" id="itemQuantity" placeholder="Digite a quantidade">
+						<input 
+							type="number" 
+							id="itemQuantity" 
+							name="itemQuantity"
+							placeholder="Digite a quantidade"
+							[(ngModel)]="produto.quantidade"
+						/>
 					</div>
 					
 					<div class="form-group">
 						<label for="itemCategory">Categoria:</label>
-						<select id="itemCategory">
+						<select 
+							id="itemCategory" 
+							name="itemCategory"
+							[(ngModel)]="produto.categoria"
+						>
 							<option value="">Selecione uma categoria</option>
+							<option *ngFor="let categoria of categorias" [value]="categoria.id">
+								{{categoria.name}}
+							</option>
 						</select>
 					</div>
 				</div>
@@ -68,19 +82,16 @@
 				<div class="modal-footer">
 					<div 
 						id="cancelBtn" 
-						class="btn btn-secondary"
+						class="btn btn-secondary" 
+						(click)="closeModal()"
 					>Cancelar</div>
-					<button 
+					<div 
 						id="saveBtn" 
-						class="btn btn-primary"
-						type="submit"
-					>Gravar</button>
+						class="btn btn-primary" 
+						(click)="cadastrarProduto()"
+					>Gravar</div>
 				</div>
-				
 			</form>
-			
 		</div>
-		
 	</div>
-	
 </div>

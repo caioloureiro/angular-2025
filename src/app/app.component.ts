@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { CrudComponent } from './crud/crud.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CrudComponent],
+  imports: [ 
+	CrudComponent,
+	FormsModule
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
