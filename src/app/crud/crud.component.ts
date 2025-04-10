@@ -65,28 +65,75 @@ export class CrudComponent {
 		}, 1000);
 	}
 	
-	cadastrarProduto(){
-		
-		console.log('cadastrarProduto');
-		console.log('produto', this.produto);
-		
-		this.apiService.cadastrarProduto( this.produto ).subscribe(produto => {
-			
-			this.listarProdutos();
-			this.closeModal();
-			
-		},
-		err =>{
-			
-			console.log('Erro ao cadatrar produto: ', err);
-			
-		})
-		
+	produtoEditando: Produto | null = null;
+	
+	editarProduto(id: number) {
+		const produto = this.produtos.find(p => p.id === id);
+		if (produto) {
+			this.produtoEditando = produto;
+			this.produto = {
+				nome: produto.nome,
+				quantidade: produto.quantidade,
+				categoria: produto.categoria.toString()
+			};
+			this.openModal();
+		}
 	}
 	
-	atualizarProduto(){}
+	atualizarProduto() {
+		if (!this.produtoEditando) return;
+		
+		console.log('Atualizando produto:', this.produto);
+		
+		this.apiService.atualizarProduto(this.produtoEditando.id, this.produto).subscribe({
+			next: () => {
+				this.listarProdutos();
+				this.closeModal();
+				this.resetarFormulario();
+			},
+			error: (err) => {
+				console.error('Erro ao atualizar:', err);
+			}
+		});
+	}
 	
-	removerProduto(){}
+	private resetarFormulario() {
+		this.produto = {
+			nome: '',
+			quantidade: 0,
+			categoria: ''
+		};
+		this.produtoEditando = null;
+	}
+	
+	cadastrarProduto() {
+		console.log('Cadastrando novo produto:', this.produto);
+		
+		this.apiService.cadastrarProduto(this.produto).subscribe({
+			next: () => {
+				this.listarProdutos();
+				this.closeModal();
+				this.resetarFormulario();
+			},
+			error: (err) => {
+				console.error('Erro ao cadastrar:', err);
+			}
+		});
+	}
+	
+	removerProduto(id: number) {
+	  if (confirm('Tem certeza que deseja desativar este produto?')) {
+		this.apiService.removerProduto(id).subscribe({
+		  next: () => {
+			console.log('Produto desativado com sucesso');
+			this.listarProdutos(); // Atualiza a lista
+		  },
+		  error: (err) => {
+			console.error('Erro ao desativar produto:', err);
+		  }
+		});
+	  }
+	}
 	
 	get produtosAtivos() {
 		return this.produtos.filter(produto => produto.ativo == '1');

@@ -28,5 +28,29 @@ export class ApiService {
 		});
 		
 	}
+	
+	atualizarProduto(id: number, produto: any): Observable<any> {
+		// Corrigindo a concatenação do ID
+		return this.http.put(
+		`http://localhost/Yii2-api/web/api/produtos/${id}`,
+		JSON.stringify(produto),
+		{
+			headers: { 'Content-Type': 'application/json' }
+		}
+		);
+	}
+
+	removerProduto(id: number): Observable<any> {
+		// Envia uma requisição DELETE para o endpoint específico
+		return this.http.delete(
+		`http://localhost/Yii2-api/web/api/produtos/${id}`
+		);
+		
+		// Se precisasse enviar dados no corpo (opcional):
+		// return this.http.delete(
+		//	 `http://localhost/Yii2-api/web/api/produtos/${id}`,
+		//	 { body: { ativo: '0' } }
+		// );
+	}
 
 }

@@ -25,9 +25,13 @@
 				<td>{{getNomeCategoria(produto.categoria)}}</td>
 				<td class="actions">
 					<div 
-						class="edit-btn"
+						class="edit-btn" 
+						(click)="editarProduto(produto.id)"
 					>Editar</div>
-					<div class="del-btn">Excluir</div>
+					<div 
+						class="del-btn"
+						(click)="removerProduto(produto.id)"
+					>Excluir</div>
 				</td>
 			</tr>
 		</tbody>
@@ -36,7 +40,9 @@
 	<div id="itemModal" class="modal" [class.active]="showModal">
 		<div class="modal-content">
 			<div class="modal-header">
-				<span class="modal-title">Adicionar Novo Item</span>
+				<span class="modal-title">
+					{{ produtoEditando ? 'Editar Produto' : 'Novo Produto' }}
+				</span>
 				<span class="close" (click)="closeModal()">&times;</span>
 			</div>
 			
@@ -80,16 +86,11 @@
 				</div>
 				
 				<div class="modal-footer">
-					<div 
-						id="cancelBtn" 
-						class="btn btn-secondary" 
-						(click)="closeModal()"
-					>Cancelar</div>
-					<div 
-						id="saveBtn" 
-						class="btn btn-primary" 
-						(click)="cadastrarProduto()"
-					>Gravar</div>
+					<div class="btn btn-secondary" (click)="closeModal()">Cancelar</div>
+					<div class="btn btn-primary" 
+						(click)="produtoEditando ? atualizarProduto() : cadastrarProduto()">
+						{{ produtoEditando ? 'Atualizar' : 'Gravar' }}
+					</div>
 				</div>
 			</form>
 		</div>
